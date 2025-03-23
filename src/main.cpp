@@ -228,6 +228,8 @@ void parseData() {
     return;
   }
 
+  Serial.println(str);
+
   int vtype = values[10];
   Serial.print("V-Type: "); Serial.println(vtype);
 
