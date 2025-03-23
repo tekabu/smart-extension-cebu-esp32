@@ -230,7 +230,7 @@ void parseData() {
 
   Serial.println(str);
 
-  int vtype = values[10];
+  int vtype = values[expectedCount-1];
   Serial.print("V-Type: "); Serial.println(vtype);
 
   if (vtype == 1)
