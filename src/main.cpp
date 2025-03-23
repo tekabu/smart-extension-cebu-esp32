@@ -306,9 +306,9 @@ void parseData() {
 }
 
 void setup() {
-  Serial.begin(4800);
+  Serial.begin(9600);
   delay(10);
-  SerialPort.begin(4800, SERIAL_8N1, RXPin, TXPin);
+  SerialPort.begin(9600, SERIAL_8N1, RXPin, TXPin);
   delay(10);
 
   Serial.println();
