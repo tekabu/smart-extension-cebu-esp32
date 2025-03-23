@@ -33,13 +33,36 @@ void handlePage2() {
   s.replace("@POWER1", String(s_power1));
   s.replace("@ENERGY1", String(s_energy1));
   s.replace("@TEMPERATURE1", String(s_temperature1));
-  s.replace("@ALARM1", String(s_alarm1));
   s.replace("@VOLTAGE2", String(s_voltage2));
   s.replace("@CURRENT2", String(s_current2));
   s.replace("@POWER2", String(s_power2));
   s.replace("@ENERGY2", String(s_energy2));
   s.replace("@TEMPERATURE2", String(s_temperature2));
-  s.replace("@ALARM2", String(s_alarm2));
+
+  if (s_alarm1 == 0)
+  {
+    s.replace("@ALARM11", "");
+    s.replace("@ALARM10", "selected");
+  }
+    
+  else
+  {
+    s.replace("@ALARM11", "selected");
+    s.replace("@ALARM10", "");
+  }
+
+  if (s_alarm2 == 0)
+  {
+    s.replace("@ALARM21", "");
+    s.replace("@ALARM20", "selected");
+  }
+    
+  else
+  {
+    s.replace("@ALARM21", "selected");
+    s.replace("@ALARM20", "");
+  } 
+
   server.send(200, "text/html", s);
 }
 

@@ -122,88 +122,88 @@ const char htmlPage1[] PROGMEM = R"rawliteral(
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Socket Settings</title>
         <style>
-        body {
-            font-family: sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
-        }
-    
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-    
-        .socket {
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 8px;
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            width: 250px;
-        }
-    
-        .socket h2 {
-            margin-top: 0;
-            text-align: center;
-        }
-    
-        .data-item {
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-        }
-    
-        .data-item strong {
-            display: inline-block;
-            width: 80px;
-        }
-    
-        .data-item input[type="number"] {
-            width: 60px;
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-    
-        .save-button {
-            display: block;
-            margin-top: 15px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-            box-sizing: border-box;
-        }
-    
-        .monitor-button {
-            display: block;
-            margin-top: 15px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-            box-sizing: border-box;
-        }
-    
-        /* Corrected CSS to remove underline from the <a> tag */
-        .socket a, .socket a:link, .socket a:visited, .socket a:hover, .socket a:active {
-            text-decoration: none;
-        }
-    </style>
+            body {
+                font-family: sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                background-color: #f4f4f4;
+            }
+
+            .container {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .socket {
+                border: 1px solid #ccc;
+                padding: 20px;
+                border-radius: 8px;
+                background-color: white;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                width: 250px;
+            }
+
+            .socket h2 {
+                margin-top: 0;
+                text-align: center;
+            }
+
+            .data-item {
+                margin-bottom: 10px;
+                display: flex;
+                align-items: center;
+            }
+
+            .data-item strong {
+                display: inline-block;
+                width: 80px;
+            }
+
+            .data-item input[type="number"] {
+                width: 60px;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+            .save-button {
+                display: block;
+                margin-top: 15px;
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .monitor-button {
+                display: block;
+                margin-top: 15px;
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            /* Corrected CSS to remove underline from the <a> tag */
+            .socket a, .socket a:link, .socket a:visited, .socket a:hover, .socket a:active {
+                text-decoration: none;
+            }
+        </style>
     </head>
     <body>
-    
+
         <div class="container">
             <div class="socket" id="socket1">
                 <form action="/settings1" method="get">
@@ -213,6 +213,11 @@ const char htmlPage1[] PROGMEM = R"rawliteral(
                     <div class="data-item"><strong>Power:</strong> <input type="number" id="power1" name="power" min="1" max="255" value="@POWER1"></div>
                     <div class="data-item"><strong>Energy:</strong> <input type="number" id="energy1" name="energy" min="1" max="255" value="@ENERGY1"></div>
                     <div class="data-item"><strong>Temperature:</strong> <input type="number" id="temperature1" name="temperature" min="1" max="255" value="@TEMPERATURE1"></div>
+                    <div class="data-item"><strong>Alarm:</strong> <select name="alarm">
+                        <option value="1" @ALARM11>ON</option>
+                        <option value="0" @ALARM10>OFF</option>
+                        </select>
+                    </div>
                     <button type="submit" class="save-button">SAVE</button>
                 </form>
             </div>
@@ -224,17 +229,16 @@ const char htmlPage1[] PROGMEM = R"rawliteral(
                     <div class="data-item"><strong>Power:</strong> <input type="number" id="power2" name="power" min="1" max="255" value="@POWER2"></div>
                     <div class="data-item"><strong>Energy:</strong> <input type="number" id="energy2" name="energy" min="1" max="255" value="@ENERGY2"></div>
                     <div class="data-item"><strong>Temperature:</strong> <input type="number" id="temperature2" name="temperature" min="1" max="255" value="@TEMPERATURE2"></div>
+                    <div class="data-item"><strong>Alarm:</strong> <select name="alarm">
+                        <option value="1" @ALARM21>ON</option>
+                        <option value="0" @ALARM20>OFF</option>
+                        </select>
+                    </div>
                     <button type="submit" class="save-button">SAVE</button>
                 </form>
                 <a href="/"><button class="monitor-button">MONITOR</button></a>
             </div>
         </div>
-    
-        <script>
-            function saveSettings(socketId) {
-                // ... (Your existing JavaScript code) ...
-            }
-        </script>
     </body>
     </html>
     )rawliteral";
