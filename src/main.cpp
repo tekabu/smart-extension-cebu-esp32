@@ -14,7 +14,8 @@ const char* ssid = "Smart-Outlet";
 const char* password = "Password123";
 String str;
 float voltage1, voltage2, current1, current2, power1, power2, energy1, energy2, temperature1, temperature2;
-int s_voltage1, s_voltage2, s_current1, s_current2, s_power1, s_power2, s_energy1, s_energy2, s_temperature1, s_temperature2;
+int s_voltage1, s_voltage2, s_current1, s_current2, s_power1, s_power2, s_energy1, s_energy2, s_temperature1, s_temperature2; 
+int s_alarm1, s_alarm2;
 
 HardwareSerial SerialPort(1);
 
@@ -32,11 +33,13 @@ void handlePage2() {
   s.replace("@POWER1", String(s_power1));
   s.replace("@ENERGY1", String(s_energy1));
   s.replace("@TEMPERATURE1", String(s_temperature1));
+  s.replace("@ALARM1", String(s_alarm1));
   s.replace("@VOLTAGE2", String(s_voltage2));
   s.replace("@CURRENT2", String(s_current2));
   s.replace("@POWER2", String(s_power2));
   s.replace("@ENERGY2", String(s_energy2));
   s.replace("@TEMPERATURE2", String(s_temperature2));
+  s.replace("@ALARM2", String(s_alarm2));
   server.send(200, "text/html", s);
 }
 
@@ -51,6 +54,7 @@ void saveSettings(int index) {
   double x_power = 1;
   double x_energy = 1;
   double x_temperature = 1;
+  int x_alarm = 1;
 
   if (server.hasArg("voltage")) {
     x_voltage = server.arg("voltage").toDouble();
@@ -72,6 +76,10 @@ void saveSettings(int index) {
     x_temperature = server.arg("temperature").toDouble();
   }
 
+  if (server.hasArg("alarm")) {
+    x_alarm = server.arg("alarm").toDouble();
+  }
+
   if (index == 1)
   {
     s_voltage1 = x_voltage;
@@ -79,6 +87,7 @@ void saveSettings(int index) {
     s_power1 = x_power;
     s_energy1 = x_energy;
     s_temperature1 = x_temperature;
+    s_alarm1 = x_alarm;
   }
   else
   {
@@ -87,6 +96,7 @@ void saveSettings(int index) {
     s_power2 = x_power;
     s_energy2 = x_energy;
     s_temperature2 = x_temperature;
+    s_alarm2 = x_alarm;
   }
 
   SerialPort.print("$");
@@ -101,6 +111,8 @@ void saveSettings(int index) {
   SerialPort.println(x_energy);
   SerialPort.print(",");
   SerialPort.print(x_temperature);
+  SerialPort.print(",");
+  SerialPort.print(x_alarm);
   SerialPort.println("#");
 
   Serial.print("Socket: ");
@@ -169,7 +181,7 @@ void handleDataTest() {
 }
 
 void parseData() {
-  int expectedCount = 11;
+  int expectedCount = 13;
   int valueCount = 0;
   float values[expectedCount];
   int commaIndex = 0;
@@ -208,6 +220,8 @@ void parseData() {
     energy2 = values[7];
     temperature1 = values[8];
     temperature2 = values[9];
+    int a1 = values[10];
+    int a2 = values[11];
 
     Serial.print("Voltage1: "); Serial.println(voltage1);
     Serial.print("Voltage2: "); Serial.println(voltage2);
@@ -292,6 +306,16 @@ void parseData() {
         s_temperature2 = 255;
     }
 
+    s_alarm1 = values[10];
+    if (s_alarm1 > 1) {
+        s_alarm1 = 1;
+    }
+
+    s_alarm2 = values[11];
+    if (s_alarm2 > 1) {
+        s_alarm2 = 1;
+    }
+
     Serial.print("Voltage1: "); Serial.println(s_voltage1);
     Serial.print("Voltage2: "); Serial.println(s_voltage2);
     Serial.print("Current1: "); Serial.println(s_current1);
@@ -302,6 +326,8 @@ void parseData() {
     Serial.print("Energy2: "); Serial.println(s_energy2);
     Serial.print("Temperature1: "); Serial.println(s_temperature1);
     Serial.print("Temperature2: "); Serial.println(s_temperature2);
+    Serial.print("Alarm1: "); Serial.println(s_alarm1);
+    Serial.print("Alarm2: "); Serial.println(s_alarm2);
   }
 }
 
