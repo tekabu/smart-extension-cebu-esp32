@@ -218,6 +218,11 @@ const char htmlPage1[] PROGMEM = R"rawliteral(
                         <option value="0" @ALARM10>OFF</option>
                         </select>
                     </div>
+                    <div class="data-item"><strong>Auto Shutdown:</strong> <select name="shutdown">
+                        <option value="1" @SHUTDOWN11>ON</option>
+                        <option value="0" @SHUTDOWN10>OFF</option>
+                        </select>
+                    </div>
                     <button type="submit" class="save-button">SAVE</button>
                 </form>
             </div>
@@ -232,6 +237,11 @@ const char htmlPage1[] PROGMEM = R"rawliteral(
                     <div class="data-item"><strong>Alarm:</strong> <select name="alarm">
                         <option value="1" @ALARM21>ON</option>
                         <option value="0" @ALARM20>OFF</option>
+                        </select>
+                    </div>
+                    <div class="data-item"><strong>Auto Shutdown:</strong> <select name="shutdown">
+                        <option value="1" @SHUTDOWN21>ON</option>
+                        <option value="0" @SHUTDOWN20>OFF</option>
                         </select>
                     </div>
                     <button type="submit" class="save-button">SAVE</button>

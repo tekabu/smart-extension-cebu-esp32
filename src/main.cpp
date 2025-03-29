@@ -16,6 +16,7 @@ String str;
 float voltage1, voltage2, current1, current2, power1, power2, energy1, energy2, temperature1, temperature2;
 int s_voltage1, s_voltage2, s_current1, s_current2, s_power1, s_power2, s_energy1, s_energy2, s_temperature1, s_temperature2; 
 int s_alarm1, s_alarm2;
+int s_shutdown1, s_shutdown2;
 
 HardwareSerial SerialPort(1);
 
@@ -44,7 +45,6 @@ void handlePage2() {
     s.replace("@ALARM11", "");
     s.replace("@ALARM10", "selected");
   }
-    
   else
   {
     s.replace("@ALARM11", "selected");
@@ -56,11 +56,32 @@ void handlePage2() {
     s.replace("@ALARM21", "");
     s.replace("@ALARM20", "selected");
   }
-    
   else
   {
     s.replace("@ALARM21", "selected");
     s.replace("@ALARM20", "");
+  } 
+
+  if (s_shutdown1 == 0)
+  {
+    s.replace("@SHUTDOWN11", "");
+    s.replace("@SHUTDOWN10", "selected");
+  }
+  else
+  {
+    s.replace("@SHUTDOWN11", "selected");
+    s.replace("@SHUTDOWN10", "");
+  }
+
+  if (s_shutdown2 == 0)
+  {
+    s.replace("@SHUTDOWN21", "");
+    s.replace("@SHUTDOWN20", "selected");
+  }
+  else
+  {
+    s.replace("@SHUTDOWN21", "selected");
+    s.replace("@SHUTDOWN20", "");
   } 
 
   server.send(200, "text/html", s);
@@ -78,6 +99,7 @@ void saveSettings(int index) {
   double x_energy = 1;
   double x_temperature = 1;
   int x_alarm = 1;
+  int x_shutdown = 1;
 
   if (server.hasArg("voltage")) {
     x_voltage = server.arg("voltage").toDouble();
@@ -103,6 +125,10 @@ void saveSettings(int index) {
     x_alarm = server.arg("alarm").toDouble();
   }
 
+  if (server.hasArg("shutdown")) {
+    x_shutdown = server.arg("shutdown").toDouble();
+  }
+
   if (index == 1)
   {
     s_voltage1 = x_voltage;
@@ -111,6 +137,7 @@ void saveSettings(int index) {
     s_energy1 = x_energy;
     s_temperature1 = x_temperature;
     s_alarm1 = x_alarm;
+    s_shutdown1 = x_shutdown;
   }
   else
   {
@@ -120,6 +147,7 @@ void saveSettings(int index) {
     s_energy2 = x_energy;
     s_temperature2 = x_temperature;
     s_alarm2 = x_alarm;
+    s_shutdown2 = x_shutdown;
   }
 
   SerialPort.print("$");
@@ -136,6 +164,8 @@ void saveSettings(int index) {
   SerialPort.print(x_temperature);
   SerialPort.print(",");
   SerialPort.print(x_alarm);
+  SerialPort.print(",");
+  SerialPort.print(x_shutdown);
   SerialPort.println("#");
 
   Serial.print("Socket: ");
@@ -204,7 +234,7 @@ void handleDataTest() {
 }
 
 void parseData() {
-  int expectedCount = 13;
+  int expectedCount = 15;
   int valueCount = 0;
   float values[expectedCount];
   int commaIndex = 0;
@@ -245,8 +275,6 @@ void parseData() {
     energy2 = values[7];
     temperature1 = values[8];
     temperature2 = values[9];
-    int a1 = values[10];
-    int a2 = values[11];
 
     Serial.print("Voltage1: "); Serial.println(voltage1);
     Serial.print("Voltage2: "); Serial.println(voltage2);
@@ -317,7 +345,8 @@ void parseData() {
         s_energy2 = 255;
     }
 
-    s_temperature1 = values[8];
+    s_temperature1 = values[8];int vtype = values[expectedCount-1];
+    Serial.print("V-Type: "); Serial.println(vtype);
     if (s_temperature1 < 1) {
         s_temperature1 = 1;
     } else if (s_temperature1 > 255) {
@@ -341,6 +370,15 @@ void parseData() {
         s_alarm2 = 1;
     }
 
+    s_shutdown1 = values[12];
+    if (s_shutdown1 > 1) {
+        s_shutdown1 = 1;
+    }
+    s_shutdown2 = values[13];
+    if (s_shutdown2 > 1) {
+        s_shutdown2 = 1;
+    }
+
     Serial.print("Voltage1: "); Serial.println(s_voltage1);
     Serial.print("Voltage2: "); Serial.println(s_voltage2);
     Serial.print("Current1: "); Serial.println(s_current1);
@@ -353,6 +391,8 @@ void parseData() {
     Serial.print("Temperature2: "); Serial.println(s_temperature2);
     Serial.print("Alarm1: "); Serial.println(s_alarm1);
     Serial.print("Alarm2: "); Serial.println(s_alarm2);
+    Serial.print("Shutdown1: "); Serial.println(s_shutdown1);
+    Serial.print("Shutdown2: "); Serial.println(s_shutdown2);
   }
 }
 
