@@ -266,12 +266,12 @@ void parseData() {
   if (vtype == 1)
   {
     voltage1 = values[0];
-    voltage2 = values[1];
-    current1 = values[2];
-    current2 = values[3];
-    power1 = values[4];
-    power2 = values[5];
-    energy1 = values[6];
+    current1 = values[1];
+    power1 = values[2];
+    energy1 = values[3];
+    voltage2 = values[4];
+    current2 = values[5];
+    power2 = values[6];
     energy2 = values[7];
     temperature1 = values[8];
     temperature2 = values[9];
