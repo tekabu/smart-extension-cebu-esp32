@@ -345,8 +345,7 @@ void parseData() {
         s_energy2 = 255;
     }
 
-    s_temperature1 = values[8];int vtype = values[expectedCount-1];
-    Serial.print("V-Type: "); Serial.println(vtype);
+    s_temperature1 = values[8];
     if (s_temperature1 < 1) {
         s_temperature1 = 1;
     } else if (s_temperature1 > 255) {
